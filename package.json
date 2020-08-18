@@ -23,6 +23,6 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "lodash": "^4.17.19"
+    "unicode-emoji": "^2.0.3"
   }
 }
