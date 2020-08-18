@@ -1,4 +1,5 @@
 // npx webpack --config webpack.config.js --watch
+const emojiList = require("unicode-emoji");
 
 window.addEventListener('load', function component() {
 
@@ -36,6 +37,41 @@ window.addEventListener('load', function component() {
   });
 
   let row = createElementWithClasses('div', ['w3-row-padding', 'w3-center,', 'w3-margin-top'],container);
+
+  let Card = function(title) {
+    let w3Third, card;
+
+    let init = (function() {
+      w3Third = createElementWithClasses('div', ['w3-third']);
+      card = createElementWithClasses('div', ['w3-card', 'w3-container'], w3Third);
+
+      setStyle(card, {
+        'min-height': '120px'
+      });
+
+      let card_title = createElementWithClasses('h3', ['w3-margin-bottom', 'w3-text-theme'], card);
+      card_title.innerHTML = emojiList.getEmojis()[690].description;
+
+      let card_emoji = createElementWithClasses('p', [], card);
+      card_emoji.innerHTML = emojiList.getEmojis()[690].emoji;
+      setStyle(card_emoji, {
+        margin: '20px',
+        'font-size': '80px'
+      });
+
+    }).bind(this);
+
+    this.attach = function(parentElement){
+      parentElement.appendChild(w3Third);
+    };
+
+    init();
+
+  };
+
+  var card1 = new Card();
+  card1.attach(row)
+
 
 
 
