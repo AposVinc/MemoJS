@@ -4,6 +4,8 @@ const unicodeEmoji = require("unicode-emoji");
 const omitWhere = { category: ['flags'], version: ['12.1', '13.0'] };
 const emojis = unicodeEmoji.getEmojis(omitWhere);
 
+console.log(emojis);
+
 window.addEventListener('load', function component() {
 
   let setStyle = function (element, style) {
@@ -80,6 +82,7 @@ window.addEventListener('load', function component() {
       setStyle(card, {
         position: 'relative',
         width: '15%',
+        height: '15%',
 
         display: 'inline-block',
         padding: '16px',
@@ -89,16 +92,14 @@ window.addEventListener('load', function component() {
         backgroundColor: '#fff'
       });
 
-      let card_title = createElementAttachedToParent('h3', card);
-      card_title.innerHTML = emojis[this.id].description;
+      // let card_title = createElementAttachedToParent('h5', card);
+      // card_title.innerHTML = emojis[this.id].description;
 
       let card_emoji = createElementAttachedToParent('p', card);
       card_emoji.innerHTML = emojis[this.id].emoji;
       setStyle(card_emoji, {
-        display: 'inline-block',
-
         margin: '10px',
-        fontSize: '50px'
+        fontSize: 'xx-large'
       });
 
     }).bind(this);
