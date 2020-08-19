@@ -1,5 +1,8 @@
 // npx webpack --config webpack.config.js --watch
-const emojiList = require("unicode-emoji");
+const unicodeEmoji = require("unicode-emoji");
+
+const omitWhere = { category: ['flags'], version: ['12.1', '13.0'] };
+const emojis = unicodeEmoji.getEmojis(omitWhere);
 
 window.addEventListener('load', function component() {
 
@@ -68,11 +71,12 @@ window.addEventListener('load', function component() {
   });
 
   let Card = function() {
+    this.id = Math.floor(Math.random() * (emojis.length));
     let card;
 
     let init = (function() {
 
-      card = createElementAttachedToParent('div', null);
+      card = createElementAttachedToParent('div', row);
       setStyle(card, {
         position: 'relative',
         width: '15%',
@@ -86,10 +90,10 @@ window.addEventListener('load', function component() {
       });
 
       let card_title = createElementAttachedToParent('h3', card);
-      card_title.innerHTML = emojiList.getEmojis()[690].description;
+      card_title.innerHTML = emojis[this.id].description;
 
       let card_emoji = createElementAttachedToParent('p', card);
-      card_emoji.innerHTML = emojiList.getEmojis()[690].emoji;
+      card_emoji.innerHTML = emojis[this.id].emoji;
       setStyle(card_emoji, {
         display: 'inline-block',
 
