@@ -9,9 +9,8 @@ window.addEventListener('load', function component() {
     }
   };
 
-  let createElementWithClasses = function (tag, classes = [], parent = null){
+  let createElementAttachedToParent = function (tag, parent = null){
     let element = document.createElement(tag);
-    classes.forEach( c => element.classList.add(c));
     if (parent !== null){
       parent.appendChild(element);
     }
@@ -20,57 +19,112 @@ window.addEventListener('load', function component() {
 
   let app = document.createElement('div');
   app.id = 'app';
+  setStyle(app,{
+    position: 'fixed',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  });
   document.body.appendChild(app);
 
-  let header = createElementWithClasses('header', ['w3-container', 'w3-theme'], app);
+  let header = createElementAttachedToParent('header', app);
   setStyle(header, {
-    padding: '15px'
+    position: 'absolute',
+    top: 0,
+    bottom: '85%',
+    left: 0,
+    right: 0,
+
+    padding: '15px',
+    color: '#fff',
+    backgroundColor: '#000'
   });
 
-  let div_w3center = createElementWithClasses('div', ['w3-center'], header);
-  let h1 = createElementWithClasses('h1', ['w3-xxxlarge', 'w3-animate-bottom'],div_w3center);
+  let div_w3center = createElementAttachedToParent('div', header);
+  setStyle(div_w3center, {
+    textAlign: 'center'
+  });
+
+  let h1 = createElementAttachedToParent('h1', div_w3center);
   h1.innerHTML = 'MemoJS';
+  setStyle(h1, {
+    fontSize: '48px'
 
-  let container = createElementWithClasses('div', ['w3-container'],app);
-  setStyle(container, {
-    backgroundColor: '#d1d1d1'
   });
 
-  let row = createElementWithClasses('div', ['w3-row-padding', 'w3-center,', 'w3-margin-top'],container);
 
-  let Card = function(title) {
-    let w3Third, card;
+  let row = createElementAttachedToParent('div', app);
+  setStyle(row, {
+    position: 'absolute',
+    top: '15%',
+    bottom: 0,
+    left: 0,
+    right: 0,
+
+    textAlign: 'center',
+    backgroundColor: '#d1d1d1',
+    padding: '8px'
+  });
+
+  let Card = function() {
+    let card;
 
     let init = (function() {
-      w3Third = createElementWithClasses('div', ['w3-third']);
-      card = createElementWithClasses('div', ['w3-card', 'w3-container'], w3Third);
 
+      card = createElementAttachedToParent('div', null);
       setStyle(card, {
-        'min-height': '120px'
+        position: 'relative',
+        width: '15%',
+
+        display: 'inline-block',
+        padding: '16px',
+        margin: '2px',
+        // minHeight: '120px',
+        boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)',
+        backgroundColor: '#fff'
       });
 
-      let card_title = createElementWithClasses('h3', ['w3-margin-bottom', 'w3-text-theme'], card);
+      let card_title = createElementAttachedToParent('h3', card);
       card_title.innerHTML = emojiList.getEmojis()[690].description;
 
-      let card_emoji = createElementWithClasses('p', [], card);
+      let card_emoji = createElementAttachedToParent('p', card);
       card_emoji.innerHTML = emojiList.getEmojis()[690].emoji;
       setStyle(card_emoji, {
-        margin: '20px',
-        'font-size': '80px'
+        display: 'inline-block',
+
+        margin: '10px',
+        fontSize: '50px'
       });
 
     }).bind(this);
 
     this.attach = function(parentElement){
-      parentElement.appendChild(w3Third);
+      parentElement.appendChild(card);
     };
 
     init();
 
   };
 
-  var card1 = new Card();
-  card1.attach(row)
+  let card1 = new Card();
+  card1.attach(row);
+
+  let card2 = new Card(1);
+  card2.attach(row);
+
+  let card3 = new Card();
+  card3.attach(row);
+
+  let card4 = new Card();
+  card4.attach(row);
+
+  let card5 = new Card();
+  card5.attach(row);
+
+  let card6 = new Card();
+  card6.attach(row);
+
 
 
 
