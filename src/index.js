@@ -73,8 +73,8 @@ window.addEventListener('load', function component() {
     padding: '8px'
   });
 
-  let Card = function() {
-    this.id = randomInt_MaxExcluded(emojis.length);
+  let Card = function(id) {
+    this.id = id;
     this.count = 0;
     let card;
 
@@ -119,10 +119,10 @@ window.addEventListener('load', function component() {
     let cardlist = [];
 
     this.newCard = function() {
-      let card = new Card();
-      cardlist.push(card);
-
-      return card;
+      let id = randomInt_MaxExcluded(emojis.length);
+      let card1 = new Card(id);
+      let card2 = new Card(id);
+      cardlist.push(card1, card2);
     };
 
     this.generateCards = () => {
@@ -132,7 +132,6 @@ window.addEventListener('load', function component() {
       while (list.length){
         let index = randomInt_MaxExcluded(index_max);
         list[index].attach(context);
-        console.log(list[index])
         list[index].count++;
         if (list[index].count > 1){
           list.splice(index,1);
@@ -148,7 +147,7 @@ window.addEventListener('load', function component() {
   let cm = new CardManager(content);
 
   let i = 0;
-  while (i < 14){
+  while (i < 15){
     cm.newCard();
     i++;
   }
