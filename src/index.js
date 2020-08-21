@@ -8,6 +8,13 @@ console.log(emojis);
 
 window.addEventListener('load', function component() {
 
+  // let randomIntFromInterval = function (min, max) { // min and max included
+  //   return Math.floor(Math.random() * (max - min + 1) + min);
+  // }
+  let randomInt_MaxExcluded = function (max) {
+    return Math.floor(Math.random() * max);
+  }
+
   let setStyle = function (element, style) {
     for (let property in style) {
       element.style[property] = style[property];
@@ -46,21 +53,15 @@ window.addEventListener('load', function component() {
     backgroundColor: '#000'
   });
 
-  let div_w3center = createElementAttachedToParent('div', header);
-  setStyle(div_w3center, {
-    textAlign: 'center'
-  });
-
-  let h1 = createElementAttachedToParent('h1', div_w3center);
+  let h1 = createElementAttachedToParent('h1', header);
   h1.innerHTML = 'MemoJS';
   setStyle(h1, {
+    textAlign: 'center',
     fontSize: '48px'
-
   });
 
-
-  let row = createElementAttachedToParent('div', app);
-  setStyle(row, {
+  let content = createElementAttachedToParent('div', app);
+  setStyle(content, {
     position: 'absolute',
     top: '15%',
     bottom: 0,
@@ -73,12 +74,13 @@ window.addEventListener('load', function component() {
   });
 
   let Card = function() {
-    this.id = Math.floor(Math.random() * (emojis.length));
+    this.id = randomInt_MaxExcluded(emojis.length);
+    this.count = 0;
     let card;
 
     let init = (function() {
 
-      card = createElementAttachedToParent('div', row);
+      card = document.createElement('div');
       setStyle(card, {
         position: 'relative',
         width: '15%',
