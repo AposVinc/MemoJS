@@ -114,24 +114,48 @@ window.addEventListener('load', function component() {
 
   };
 
-  let card1 = new Card();
-  card1.attach(row);
 
-  let card2 = new Card(1);
-  card2.attach(row);
+  let CardManager = function (context) {
+    let cardlist = [];
 
-  let card3 = new Card();
-  card3.attach(row);
+    this.newCard = function() {
+      let card = new Card();
+      cardlist.push(card);
 
-  let card4 = new Card();
-  card4.attach(row);
+      return card;
+    };
 
-  let card5 = new Card();
-  card5.attach(row);
+    this.generateCards = () => {
+      let list = [...cardlist];
+      let index_max = list.length;
 
-  let card6 = new Card();
-  card6.attach(row);
+      while (list.length){
+        let index = randomInt_MaxExcluded(index_max);
+        list[index].attach(context);
+        console.log(list[index])
+        list[index].count++;
+        if (list[index].count > 1){
+          list.splice(index,1);
+          index_max--;
+        }
+      }
 
+    }
+
+    this.list = cardlist;
+  };
+
+  let cm = new CardManager(content);
+
+  let i = 0;
+  while (i < 14){
+    cm.newCard();
+    i++;
+  }
+
+  cm.generateCards();
+
+  cardmanager = cm;
 
 
 
