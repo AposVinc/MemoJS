@@ -75,7 +75,6 @@ window.addEventListener('load', function component() {
 
   let Card = function(id) {
     this.id = id;
-    this.count = 0;
     let card;
 
     let init = (function() {
@@ -132,11 +131,8 @@ window.addEventListener('load', function component() {
       while (list.length){
         let index = randomInt_MaxExcluded(index_max);
         list[index].attach(context);
-        list[index].count++;
-        if (list[index].count > 1){
-          list.splice(index,1);
-          index_max--;
-        }
+        list.splice(index,1);
+        index_max--;
       }
 
     }
