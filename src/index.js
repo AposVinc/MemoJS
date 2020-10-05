@@ -76,11 +76,12 @@ window.addEventListener('load', function component() {
   let Card = function(id) {
     this.id = id;
     let card;
+    this.focus = false;
 
     let init = (function() {
 
       card = document.createElement('div');
-      setStyle(card, {
+      this.setStyle(card, {
         position: 'relative',
         width: '15%',
         height: '15%',
@@ -90,7 +91,7 @@ window.addEventListener('load', function component() {
         margin: '2px',
         // minHeight: '120px',
         boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)',
-        backgroundColor: '#fff'
+        backgroundColor: '#000'
       });
 
       // let card_title = createElementAttachedToParent('h5', card);
@@ -98,10 +99,30 @@ window.addEventListener('load', function component() {
 
       let card_emoji = createElementAttachedToParent('p', card);
       card_emoji.innerHTML = emojis[this.id].emoji;
-      setStyle(card_emoji, {
+      this.setStyle(card_emoji, {
         margin: '10px',
         fontSize: 'xx-large'
       });
+
+      card.addEventListener('click', (event) => {
+        if (this.focus === false){
+          this.setStyle(card, {
+            backgroundColor: '#fff'
+          });
+          let e = new Event('discoverCard'); //tutte le op sul div le gestiamo sul div tranne quella della creazione
+          card.dispatchEvent(e);
+
+        } else {
+          this.setStyle(card, {
+            backgroundColor: '#000'
+          });
+          let e = new Event('coverCard'); //tutte le op sul div le gestiamo sul div tranne quella della creazione
+          card.dispatchEvent(e);
+        }
+        this.focus = (!this.focus);
+
+      });
+
 
     }).bind(this);
 
@@ -109,10 +130,14 @@ window.addEventListener('load', function component() {
       parentElement.appendChild(card);
     };
 
+    this.handleEvent = function (eventType, callback) {
+      card.addEventListener(eventType, callback);
+    }.bind(this);
+
     init();
 
   };
-
+  Card.prototype.setStyle = setStyle;
 
   let CardManager = function (context) {
     let cardlist = [];
@@ -121,7 +146,9 @@ window.addEventListener('load', function component() {
       let id = randomInt_MaxExcluded(emojis.length);
       let card1 = new Card(id);
       let card2 = new Card(id);
+
       cardlist.push(card1, card2);
+      
     };
 
     this.generateCards = () => {
@@ -134,7 +161,6 @@ window.addEventListener('load', function component() {
         list.splice(index,1);
         index_max--;
       }
-
     }
 
     this.list = cardlist;
