@@ -116,6 +116,10 @@ window.addEventListener('load', function component() {
       parentElement.appendChild(card);
     };
 
+    this.detach = function() {
+      card.parentElement.removeChild(card); //a causa della closure ha il binding con la vaiabile interna, percio se fuori dall oggetto faccio " pippo = square.detach() " funziona comunque
+    };
+
     this.handleEvent = function (eventType, callback) {
       card.addEventListener(eventType, callback);
     }.bind(this);
@@ -174,20 +178,31 @@ window.addEventListener('load', function component() {
 
           if (selectedCard.card.id === card.id){
             console.log("hanno lo stesso id");
-            // detach
 
-            selectedCard.card = null;
-            selectedCard.target = null;
+            setTimeout(function() {
+              selectedCard.card.detach();
+              card.detach();
+
+              //togli anche dalla lista
+
+            }.bind(this), 2500);
+
           } else {
             console.log("i due sel. non hanno stesso 1d, coprili di nuovo");
-            this.coverCard(event.target);
-            this.coverCard(selectedCard.target);
+
+            setTimeout(function() {
+              this.coverCard(event.target);
+              this.coverCard(selectedCard.target);
+            }.bind(this), 2500);
 
             card.focus = false;
             selectedCard.card.focus = false;
+          }
+
+          setTimeout(function() {
             selectedCard.card = null;
             selectedCard.target = null;
-          }
+          }.bind(this), 2500);
 
         }
       }.bind(this);
