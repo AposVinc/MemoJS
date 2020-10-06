@@ -73,6 +73,7 @@ window.addEventListener('load', function component() {
     padding: '8px'
   });
 
+  // let Card = function(id, existCard = null) { // per generare da una card gia esistente
   let Card = function(id) {
     this.id = id;
     let card;
@@ -101,7 +102,8 @@ window.addEventListener('load', function component() {
       card_emoji.innerHTML = emojis[this.id].emoji;
       this.setStyle(card_emoji, {
         margin: '10px',
-        fontSize: 'xx-large'
+        fontSize: 'xx-large',
+        display: 'none'
       });
 
       card.addEventListener('click', () => {
@@ -188,7 +190,7 @@ window.addEventListener('load', function component() {
             }.bind(this), 2500);
 
           } else {
-            console.log("i due sel. non hanno stesso 1d, coprili di nuovo");
+            console.log("le due card non hanno stesso 1d, coprili di nuovo");
 
             setTimeout(function() {
               this.coverCard(event.target);
@@ -228,10 +230,16 @@ window.addEventListener('load', function component() {
     this.setStyle(target, {
       backgroundColor: '#1c1c1c'
     });
+    this.setStyle(target.firstChild, {
+      display: 'none'
+    });
   }
   CardManager.prototype.discoverCard = function(target) {
     this.setStyle(target, {
       backgroundColor: '#fff'
+    });
+    this.setStyle(target.firstChild, {
+      display: ''
     });
   }
 
