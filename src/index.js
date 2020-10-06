@@ -4,7 +4,7 @@ const unicodeEmoji = require("unicode-emoji");
 const omitWhere = { category: ['flags'], version: ['12.1', '13.0'] };
 const emojis = unicodeEmoji.getEmojis(omitWhere);
 
-console.log(emojis);
+// console.log(emojis);
 
 window.addEventListener('load', function component() {
 
@@ -91,7 +91,7 @@ window.addEventListener('load', function component() {
         margin: '2px',
         // minHeight: '120px',
         boxShadow: '0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)',
-        backgroundColor: '#000'
+        backgroundColor: '#1c1c1c'
       });
 
       // let card_title = createElementAttachedToParent('h5', card);
@@ -104,23 +104,9 @@ window.addEventListener('load', function component() {
         fontSize: 'xx-large'
       });
 
-      card.addEventListener('click', (event) => {
-        if (this.focus === false){
-          this.setStyle(card, {
-            backgroundColor: '#fff'
-          });
-          let e = new Event('discoverCard'); //tutte le op sul div le gestiamo sul div tranne quella della creazione
-          card.dispatchEvent(e);
-
-        } else {
-          this.setStyle(card, {
-            backgroundColor: '#000'
-          });
-          let e = new Event('coverCard'); //tutte le op sul div le gestiamo sul div tranne quella della creazione
-          card.dispatchEvent(e);
-        }
-        this.focus = (!this.focus);
-
+      card.addEventListener('click', () => {
+        let e = new Event('selectCard'); //tutte le op sul div le gestiamo sul div tranne quella della creazione
+        card.dispatchEvent(e);
       });
 
 
@@ -141,14 +127,62 @@ window.addEventListener('load', function component() {
 
   let CardManager = function (context) {
     let cardlist = [];
+    let selectedCard = null
 
     this.newCard = function() {
       let id = randomInt_MaxExcluded(emojis.length);
       let card1 = new Card(id);
-      let card2 = new Card(id);
+      // let card2 = new Card(id);
 
-      cardlist.push(card1, card2);
-      
+
+      // card1.handleEvent('selectCard', (event) => {
+      //   console.log(card1); //evento se passo come par - card se non c'è nel par
+      //   console.log(this); //cardManager
+      //
+      // });
+
+      card1.handleEvent('selectCard', (event) => {
+        if (!selectedCard && !card1.focus) { //selecteCard = null e focus = false
+          this.discoverCard(event.target);
+
+          card1.focus = !card1.focus;
+          selectedCard = card1;
+          return ;
+        }
+        if (selectedCard && card1.focus) { //selecteCard = OK e focus = t
+          this.coverCard(event.target);
+
+          card1.focus = !card1.focus;
+          selectedCard = null;
+
+          return ;
+        }
+
+        if (selectedCard && !card1.focus) { //selecteCard = OK e focus = f
+          this.discoverCard(event.target);
+
+          if (selectedCard.id === card1.id){
+            console.log("hanno lo stesso id");
+            // detach
+
+          } else {
+            console.log("i due sel. non hanno stesso 1d, coprili di nuovo");
+            this.coverCard(event.target);
+            //copri anche selectedCard
+            console.log(selectedCard);
+
+            card1.focus = false;
+            selectedCard = null;
+
+          }
+          return ;
+
+        }
+      });
+
+
+      // cardlist.push(card1, card2);
+      cardlist.push(card1);
     };
 
     this.generateCards = () => {
@@ -162,9 +196,20 @@ window.addEventListener('load', function component() {
         index_max--;
       }
     }
-
     this.list = cardlist;
   };
+  CardManager.prototype.setStyle = setStyle;
+  CardManager.prototype.coverCard = function(target) {
+    this.setStyle(target, {
+      backgroundColor: '#1c1c1c'
+    });
+  }
+  CardManager.prototype.discoverCard = function(target) {
+    this.setStyle(target, {
+      backgroundColor: '#fff'
+    });
+  }
+
 
   let cm = new CardManager(content);
 
