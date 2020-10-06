@@ -127,7 +127,10 @@ window.addEventListener('load', function component() {
 
   let CardManager = function (context) {
     let cardlist = [];
-    let selectedCard = null
+    let selectedCard = {
+      card: null,
+      target: null
+    };
 
     this.newCard = function() {
       let id = randomInt_MaxExcluded(emojis.length);
@@ -142,43 +145,50 @@ window.addEventListener('load', function component() {
       // });
 
       card1.handleEvent('selectCard', (event) => {
-        if (!selectedCard && !card1.focus) { //selecteCard = null e focus = false
+        handleClick(card1, event)
+      });
+
+
+      let handleClick = function(card, event) {
+        if (!selectedCard.card && !card.focus) { //selecteCard = null e focus = false
           this.discoverCard(event.target);
 
-          card1.focus = !card1.focus;
-          selectedCard = card1;
+          card.focus = !card.focus;
+          selectedCard.card = card;
+          selectedCard.target = event.target;
           return ;
         }
-        if (selectedCard && card1.focus) { //selecteCard = OK e focus = t
+        if (selectedCard.card && card.focus) { //selecteCard = OK e focus = t
           this.coverCard(event.target);
 
-          card1.focus = !card1.focus;
-          selectedCard = null;
-
+          card.focus = !card.focus;
+          selectedCard.card = null;
+          selectedCard.target = null;
           return ;
         }
 
-        if (selectedCard && !card1.focus) { //selecteCard = OK e focus = f
+        if (selectedCard.card && !card.focus) { //selecteCard = OK e focus = f
           this.discoverCard(event.target);
 
-          if (selectedCard.id === card1.id){
+          if (selectedCard.card.id === card.id){
             console.log("hanno lo stesso id");
             // detach
 
+            selectedCard.card = null;
+            selectedCard.target = null;
           } else {
             console.log("i due sel. non hanno stesso 1d, coprili di nuovo");
             this.coverCard(event.target);
-            //copri anche selectedCard
-            console.log(selectedCard);
+            this.coverCard(selectedCard.target);
 
-            card1.focus = false;
-            selectedCard = null;
-
+            card.focus = false;
+            selectedCard.card = null;
+            selectedCard.target = null;
           }
           return ;
 
         }
-      });
+      }.bind(this);
 
 
       // cardlist.push(card1, card2);
