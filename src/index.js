@@ -73,7 +73,6 @@ window.addEventListener('load', function component() {
     padding: '8px'
   });
 
-  // let Card = function(id, existCard = null) { // per generare da una card gia esistente
   let Card = function(id) {
     this.id = id;
     let card;
@@ -133,6 +132,7 @@ window.addEventListener('load', function component() {
 
   let CardManager = function (context) {
     let cardlist = [];
+    let flag = true;
     let selectedCard = {
       card: null,
       target: null
@@ -143,27 +143,25 @@ window.addEventListener('load', function component() {
       let card1 = new Card(id);
       let card2 = new Card(id);
 
-
-      // card1.handleEvent('selectCard', (event) => {
-      //   console.log(card1); //evento se passo come par - card se non c'è nel par
-      //   console.log(this); //cardManager
-      //
-      // });
-
       card1.handleEvent('selectCard', (event) => {
-        handleClick(card1, event)
+        this.handleClick(card1, event)
       });
       card2.handleEvent('selectCard', (event) => {
-        handleClick(card2, event)
+        this.handleClick(card2, event)
       });
 
-      let handleClick = function(card, event) {
+      cardlist.push(card1, card2);
+    };
+
+    this.handleClick = function(card, event) {
+      if (flag) {
         if (!selectedCard.card && !card.focus) { //selecteCard = null e focus = false
           this.discoverCard(event.target);
 
           card.focus = !card.focus;
           selectedCard.card = card;
           selectedCard.target = event.target;
+          flag = true;
           return ;
         }
         if (selectedCard.card && card.focus) { //selecteCard = OK e focus = t
@@ -172,6 +170,7 @@ window.addEventListener('load', function component() {
           card.focus = !card.focus;
           selectedCard.card = null;
           selectedCard.target = null;
+          flag = true;
           return ;
         }
 
@@ -190,7 +189,7 @@ window.addEventListener('load', function component() {
             }.bind(this), 2500);
 
           } else {
-            console.log("le due card non hanno stesso 1d, coprili di nuovo");
+            console.log("le due card non hanno stesso id, coprili di nuovo");
 
             setTimeout(function() {
               this.coverCard(event.target);
@@ -204,12 +203,14 @@ window.addEventListener('load', function component() {
           setTimeout(function() {
             selectedCard.card = null;
             selectedCard.target = null;
+
+            flag = true;
           }.bind(this), 2500);
 
         }
-      }.bind(this);
 
-      cardlist.push(card1, card2);
+        flag = false;
+      }
     };
 
     this.generateCards = () => {
