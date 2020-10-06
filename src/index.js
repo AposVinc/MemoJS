@@ -135,7 +135,7 @@ window.addEventListener('load', function component() {
     this.newCard = function() {
       let id = randomInt_MaxExcluded(emojis.length);
       let card1 = new Card(id);
-      // let card2 = new Card(id);
+      let card2 = new Card(id);
 
 
       // card1.handleEvent('selectCard', (event) => {
@@ -147,7 +147,9 @@ window.addEventListener('load', function component() {
       card1.handleEvent('selectCard', (event) => {
         handleClick(card1, event)
       });
-
+      card2.handleEvent('selectCard', (event) => {
+        handleClick(card2, event)
+      });
 
       let handleClick = function(card, event) {
         if (!selectedCard.card && !card.focus) { //selecteCard = null e focus = false
@@ -182,17 +184,15 @@ window.addEventListener('load', function component() {
             this.coverCard(selectedCard.target);
 
             card.focus = false;
+            selectedCard.card.focus = false;
             selectedCard.card = null;
             selectedCard.target = null;
           }
-          return ;
 
         }
       }.bind(this);
 
-
-      // cardlist.push(card1, card2);
-      cardlist.push(card1);
+      cardlist.push(card1, card2);
     };
 
     this.generateCards = () => {
