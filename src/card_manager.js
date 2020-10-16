@@ -89,7 +89,13 @@ let CardManager = function (context) {
     }
   };
 
-  this.generateCards = () => {
+  this.generateCards = (number_of_pair) => {
+    let i = 0;
+    while (i < number_of_pair){
+      this.newCard();
+      i++;
+    }
+
     let list = [...cardlist];
     let index_max = list.length;
 

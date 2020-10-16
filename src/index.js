@@ -51,15 +51,7 @@ window.addEventListener('load', function component() {
 
 
   let cm = new CardManager(content);
-
-  let i = 0;
-  while (i < 15){
-    cm.newCard();
-    i++;
-  }
-
-  cm.generateCards();
-
+  cm.generateCards(15);
 
 
 
