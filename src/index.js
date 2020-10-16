@@ -48,10 +48,76 @@ window.addEventListener('load', function component() {
     padding: '8px'
   });
 
+  /*
+  SETTINGS -----------------------------------------------------------------------------
+  */
+  // let settings = createElementAttachedToParent('form', content);
+  let settings = createElementAttachedToParent('div', content);
+  setStyle(settings, {
+    paddingTop: '60px',
+    paddingBottom: '60px',
+  });
 
+  let form_title = createElementAttachedToParent('h2', settings);
+  form_title.innerHTML = "Impostazioni";
+  setStyle(form_title, {
+    fontWeight: 400,
+    fontSize: '30px'
+  });
+
+  let section_form = createElementAttachedToParent('div', settings);
+  setStyle(section_form, {
+    marginTop: '16px',
+    marginBottom: '16px'
+  });
+
+  let label = createElementAttachedToParent('label', section_form);
+  label.innerHTML = "Numero di coppie da generare:";
+  label.setAttribute('for', 'numberOfPair');
+
+  let input = createElementAttachedToParent('input', section_form);
+  input.setAttribute("id", "numberOfPair");
+  input.setAttribute('type', "number");
+  input.setAttribute('min', 1);
+  // input.setAttribute('required', "required");
+  input.setAttribute("placeholder", 15);
+  setStyle(input, {
+    padding: '8px'
+  });
+
+  let startButton = createElementAttachedToParent('button', settings);
+  label.setAttribute('type', 'submit');
+  startButton.innerHTML = "START";
+  setStyle(startButton, {
+    fontWeight: 900,
+    fontSize: '24px',
+    padding: '8px 16px',
+    border: 'none',
+    color: '#fff',
+    backgroundColor: '#1c1c1c',
+  });
+
+  /*
+  END SETTINGS -------------------------------------------------------------------------
+  */
 
   let cm = new CardManager(content);
-  cm.generateCards(15);
+
+  // settings.addEventListener('submit', (event) => {
+  //   console.log(event);
+  //   // let number = event.target
+  //   // cm.generateCards();
+  // });
+
+  startButton.addEventListener('click', () => {
+    let number = input.value;
+    if(number){
+      cm.generateCards(number);
+    } else {
+      cm.generateCards();
+    }
+    content.removeChild(settings);
+  });
 
 
 

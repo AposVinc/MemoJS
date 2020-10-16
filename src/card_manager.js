@@ -89,7 +89,7 @@ let CardManager = function (context) {
     }
   };
 
-  this.generateCards = (number_of_pair) => {
+  this.generateCards = (number_of_pair = 15) => {
     let i = 0;
     while (i < number_of_pair){
       this.newCard();
