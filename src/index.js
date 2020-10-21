@@ -79,6 +79,7 @@ window.addEventListener('load', function component() {
   input.setAttribute("id", "numberOfPair");
   input.setAttribute('type', "number");
   input.setAttribute('min', 1);
+  input.setAttribute('max', 15);
   // input.setAttribute('required', "required");
   input.setAttribute("placeholder", 15);
   setStyle(input, {
@@ -102,12 +103,6 @@ window.addEventListener('load', function component() {
   */
 
   let cm = new CardManager(content);
-
-  // settings.addEventListener('submit', (event) => {
-  //   console.log(event);
-  //   // let number = event.target
-  //   // cm.generateCards();
-  // });
 
   startButton.addEventListener('click', () => {
     let number = input.value;
