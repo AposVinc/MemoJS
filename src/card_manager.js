@@ -60,7 +60,7 @@ let CardManager = function (context) {
             selectedCard.card.detach();
             card.detach();
 
-            //togli anche dalla lista
+            // si potrebbe togliere anche dalla lista
 
           }.bind(this), 1500);
 
