@@ -1,4 +1,5 @@
 // npx webpack --config webpack.config.js --watch
+"use strict";
 import { setStyle, createElementAttachedToParent } from './utility';
 import { CardManager } from './card_manager';
 

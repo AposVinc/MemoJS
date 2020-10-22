@@ -1,3 +1,5 @@
+"use strict";
+
 import {randomInt_MaxExcluded, setStyle} from './utility';
 import {Card} from './card';
 

@@ -1,3 +1,5 @@
+"use strict";
+
 import {createElementAttachedToParent, setStyle} from './utility';
 
 const unicodeEmoji = require("unicode-emoji");
